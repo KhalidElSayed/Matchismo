@@ -31,6 +31,19 @@
     return self;
 }
 
+#pragma mark - Properties
+
+- (void)setFaceUp:(BOOL)faceUp
+{
+    _faceUp = faceUp;
+    [self setNeedsDisplay];
+}
+
+- (void)setPlayable:(BOOL)playable
+{
+    _playable = playable;
+}
+
 #pragma mark - Drawing
 
 #define CORNER_FONT_STANDARD_HEIGHT 180.0
@@ -71,7 +84,7 @@
     //but uses control points rotated 180 degrees about the center between the endpoints.
     //No moveToPoint needed, because we're already there.
     [thePath addCurveToPoint:CGPointMake(ratio*72.0,ratio*216.0) controlPoint1:CGPointMake(ratio*420.0,ratio*312.0) controlPoint2:CGPointMake(ratio*144.0,ratio*108.0)];
-    CGContextTranslateCTM(UIGraphicsGetCurrentContext(), 0, self.bounds.size.height/4);
+    CGContextTranslateCTM(UIGraphicsGetCurrentContext(), self.bounds.size.width/20, self.bounds.size.height/4);
     return thePath;
 }
 
@@ -84,6 +97,14 @@
     
     [roundedRect addClip];
 
+    if (self.faceUp)
+    {
+        [[UIColor yellowColor] setFill];
+    } else {
+        [[UIColor whiteColor] setFill];
+    }
+    [roundedRect fill];
+    
     [[UIColor blackColor] setStroke];
     [roundedRect stroke];
     
@@ -148,5 +169,10 @@
         CGContextRestoreGState(UIGraphicsGetCurrentContext());
     }
     
+}
+
+-(NSString *)description
+{
+    return [NSString stringWithFormat: @"Playeble %hhd", self.playable];
 }
 @end

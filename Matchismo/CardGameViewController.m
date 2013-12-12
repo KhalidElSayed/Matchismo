@@ -67,21 +67,5 @@
     return super.game;
 }
 
--(void) setCardViews:(NSArray *)cardButtons
-{
-    [super setCardViews:cardButtons];
-
-//    UIImage *image = [UIImage imageNamed:@"bober.png"];
-//    UIImage *blank = [[UIImage alloc] init];
-//    for (UIButton *cardButton in self.cardButtons) {
-//        [cardButton setTitle:@"" forState:UIControlStateNormal];
-//        [cardButton setImage:image forState:UIControlStateNormal];
-//        [cardButton setImage:blank forState: UIControlStateSelected];
-//        [cardButton setImage:blank forState: UIControlStateSelected | UIControlStateDisabled];
-//        [cardButton setTitleColor:[UIColor blackColor] forState: UIControlStateSelected];
-//        [cardButton setTitleColor:[UIColor blackColor]  forState: UIControlStateSelected | UIControlStateDisabled];
-//    }
-    [super updateUI];
-}
 
 @end

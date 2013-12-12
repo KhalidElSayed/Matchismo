@@ -97,13 +97,6 @@
     self.flipsLabel.text = [NSString stringWithFormat:@"Flips: %d", self.flipCount];
 }
 
--(void)updateButton:(UIButton *)cardButton forCard:(Card *)card
-{
-    [cardButton setTitle:card.contents forState:UIControlStateSelected];
-    [cardButton setTitle:card.contents forState:UIControlStateSelected | UIControlStateDisabled];
-    cardButton.alpha = card.isUnplayable ? 0.3 : 1.0;
-}
-
 -(void)updateAlert
 {
     if(self.game.lastActionDescription)
@@ -130,6 +123,8 @@
     }
 }
 
+-(void)redeal {}
+
 -(void)updateCardView:(UIView *)cardView forCard:(Card *)card {}
 
 -(void)updateUI
@@ -142,6 +137,7 @@
 - (IBAction)deal {
     self.game = nil;
     self.flipCount = 0;
+    [self redeal];
     [self updateUI];
 }
 

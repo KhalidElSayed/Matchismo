@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIView *gridView;
 @property (strong, nonatomic) Grid *grid;
 
-@property (strong, nonatomic) NSArray *cardViews;
+@property (strong, nonatomic) NSMutableArray *cardViews;
 @property (nonatomic) int flipCount;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 
@@ -26,8 +26,11 @@
 @property (nonatomic) int cardsCount;
 
 -(void)updateUI;
+- (void)updateCards;
+-(void)redeal;
 
 -(void)newAction:(NSAttributedString *)action;
 - (IBAction)flipCard:(id)sender;
 
+- (void)addNewCardViewToColumn:(int)column ToRow:(int)row ToCards:(NSMutableArray *)cards;
 @end

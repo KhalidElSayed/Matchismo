@@ -33,6 +33,55 @@
     return [[SetCardView alloc] init];
 }
 
+- (void)updateCards
+{
+    [super updateCards];
+    
+    NSMutableArray *viewsToDelete = [NSMutableArray array];
+    NSMutableArray *cardsToDelete = [NSMutableArray array];
+    for (SetCardView *cardView in self.cardViews) {
+        if (!cardView.playable)
+        {
+            [viewsToDelete addObject:cardView];
+            [cardsToDelete addObject:[self.game cardAtIndex:[self.cardViews indexOfObject:cardView]]];
+        }
+    }
+    
+    [self.cardViews removeObjectsInArray:viewsToDelete];
+    [self.game.cards removeObjectsInArray:cardsToDelete];
+    
+    if ([viewsToDelete count])
+    {
+        [self reorderCards];
+    }
+}
+
+-(void)redeal
+{
+    if (self.cardViews.count < [self cardsCount])
+    {
+        int cardsToAdd =[self cardsCount]-self.cardViews.count;
+        for (int i=0; i<cardsToAdd; i++)
+        {
+            [super addNewCardViewToColumn:0 ToRow:0 ToCards:self.cardViews];
+        }
+        [self reorderCards];
+    }
+}
+
+-(void)reorderCards
+{
+    self.grid.minimumNumberOfCells = [self.cardViews count];
+    for (int i=0; i<self.grid.minimumNumberOfCells; i++)
+    {
+        int row = i / self.grid.columnCount;
+        int column = i % self.grid.columnCount;
+        UIView *card = [self.cardViews objectAtIndex:i];
+        card.center = [self.grid centerOfCellAtRow:row inColumn:column];
+        card.frame = [self.grid frameOfCellAtRow:row inColumn:column];
+    }
+}
+
 -(void)updateCardView:(UIView *)cardView forCard:(Card *)card
 {
     if ([cardView isKindOfClass:[SetCardView class]])
@@ -43,24 +92,35 @@
             SetCard *sCard = (SetCard *)card;
             
             sView.faceUp = sCard.isFaceUp;
-            sView.playable = !sCard.isUnplayable;
             
-            sView.alpha = sCard.isUnplayable ? 0.0 : 1.0;
+            sView.playable = !sCard.isUnplayable;
+            //sView.alpha = sCard.isUnplayable ? 0.0 : 1.0;
             
             sView.color = [self cardColor:sCard];
             sView.number = sCard.number;
             sView.shading = sCard.shading;
+            sView.symbol = [self cardSymbol:sCard];
             
-            if ([sCard.symbol isEqualToString:@"▲"]) {
-                sView.symbol = DIAMOND;
-            } else if ([sCard.symbol isEqualToString:@"●"]) {
-                sView.symbol = OVAL;
-            } else {
-                sView.symbol = SQUIGGLE;
+            if (!sView.playable)
+            {
+                [sView removeFromSuperview];
             }
         }
     }
 
+}
+
+-(Symbols)cardSymbol:(SetCard*)sCard
+{
+    Symbols symbol;
+    if ([sCard.symbol isEqualToString:@"▲"]) {
+        symbol = DIAMOND;
+    } else if ([sCard.symbol isEqualToString:@"●"]) {
+        symbol = OVAL;
+    } else {
+        symbol = SQUIGGLE;
+    }
+    return symbol;
 }
 
 -(UIColor *)cardColor:(SetCard*)setCard
@@ -122,28 +182,6 @@
     return content;
 }
 
--(void)updateButton:(UIButton *)cardButton forCard:(Card *)card
-{
-    NSAttributedString *content = [self contentForCard:card];
-    [cardButton setAttributedTitle: content forState:UIControlStateNormal];
-    [cardButton setAttributedTitle: content forState:UIControlStateSelected];
-    [cardButton setAttributedTitle: content forState:UIControlStateSelected | UIControlStateDisabled];
-    
-    if (card.isFaceUp) {
-        [cardButton setBackgroundColor:[UIColor yellowColor]];
-    } else {
-        [cardButton setBackgroundColor:[UIColor whiteColor]];
-    }
-    
-    cardButton.alpha = card.isUnplayable ? 0.0 : 1.0;
-}
-
--(void) setCardViews:(NSArray *)cardButtons
-{
-    [super setCardViews:cardButtons];
-    [super updateUI];
-}
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -192,6 +230,17 @@
         }
         [self newAction:content];
     }
+}
+
+-(void)flip:(UITapGestureRecognizer *)tap
+{
+    [UIView transitionWithView:self.view
+                      duration:1.0
+                       options:UIViewAnimationOptionBeginFromCurrentState
+                    animations:^{
+                        [self flipCard: tap.view];
+                    }
+                    completion:nil];
 }
 
 - (void)viewDidLoad
