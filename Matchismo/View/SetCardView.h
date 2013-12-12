@@ -15,11 +15,11 @@ typedef enum shadingTypes
     DIAMOND,
     SQUIGGLE,
     OVAL
-} Shading;
+} Symbols;
 
 @property (strong, nonatomic) UIColor *color;
 @property (nonatomic) int shading;
-@property (nonatomic) Shading *symbol;
+@property (nonatomic) Symbols symbol;
 @property (nonatomic) int number;
 
 @property (nonatomic) BOOL faceUp;

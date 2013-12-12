@@ -49,6 +49,15 @@
             
             sView.color = [self cardColor:sCard];
             sView.number = sCard.number;
+            sView.shading = sCard.shading;
+            
+            if ([sCard.symbol isEqualToString:@"▲"]) {
+                sView.symbol = DIAMOND;
+            } else if ([sCard.symbol isEqualToString:@"●"]) {
+                sView.symbol = OVAL;
+            } else {
+                sView.symbol = SQUIGGLE;
+            }
         }
     }
 
@@ -74,6 +83,14 @@
     SetCard *setCard = (SetCard *)card;
     
     UIColor *cardColor;
+    if (setCard.color == 1) {
+        cardColor = [UIColor redColor];
+    } else if (setCard.color == 2) {
+        cardColor = [UIColor blueColor];
+    } else {
+        cardColor = [UIColor greenColor];
+    }
+    
     if (setCard.color == 1) {
         cardColor = [UIColor redColor];
     } else if (setCard.color == 2) {
