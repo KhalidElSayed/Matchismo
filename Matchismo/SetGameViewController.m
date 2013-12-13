@@ -65,20 +65,7 @@
         {
             [super addNewCardViewToColumn:0 ToRow:0 ToCards:self.cardViews];
         }
-        [self reorderCards];
-    }
-}
-
--(void)reorderCards
-{
-    self.grid.minimumNumberOfCells = [self.cardViews count];
-    for (int i=0; i<self.grid.minimumNumberOfCells; i++)
-    {
-        int row = i / self.grid.columnCount;
-        int column = i % self.grid.columnCount;
-        UIView *card = [self.cardViews objectAtIndex:i];
-        card.center = [self.grid centerOfCellAtRow:row inColumn:column];
-        card.frame = [self.grid frameOfCellAtRow:row inColumn:column];
+        [super reorderCards];
     }
 }
 

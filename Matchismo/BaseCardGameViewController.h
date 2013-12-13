@@ -28,6 +28,7 @@
 -(void)updateUI;
 - (void)updateCards;
 -(void)redeal;
+-(void)reorderCards;
 
 -(void)newAction:(NSAttributedString *)action;
 - (IBAction)flipCard:(id)sender;

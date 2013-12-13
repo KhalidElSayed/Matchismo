@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
     </dependencies>
     <scenes>
-        <!--Tab Bar Controller-->
+        <!--Main View Controller-->
         <scene sceneID="tpJ-P4-34S">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" definesPresentationContext="YES" id="mTu-Wp-XDS" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" definesPresentationContext="YES" id="mTu-Wp-XDS" customClass="MainViewController" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="aRD-WJ-ZyX">
                         <rect key="frame" x="129" y="330" width="163" height="49"/>

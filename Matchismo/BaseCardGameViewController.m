@@ -51,6 +51,20 @@
     return nil;
 }
 
+-(void)reorderCards
+{
+    self.grid.size = self.gridView.frame.size;
+    self.grid.minimumNumberOfCells = [self.cardViews count];
+    for (int i=0; i<self.grid.minimumNumberOfCells; i++)
+    {
+        int row = i / self.grid.columnCount;
+        int column = i % self.grid.columnCount;
+        UIView *card = [self.cardViews objectAtIndex:i];
+        card.center = [self.grid centerOfCellAtRow:row inColumn:column];
+        card.frame = [self.grid frameOfCellAtRow:row inColumn:column];
+    }
+}
+
 -(void)addCardsToView:(UIView *)gridView
 {
     self.grid.size = self.gridView.frame.size;
@@ -161,6 +175,16 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self reorderCards];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self reorderCards];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
