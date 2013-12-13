@@ -179,12 +179,23 @@
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    [self reorderCards];
+    [self reorderCardsWithAnimation];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    [self reorderCards];
+    [self reorderCardsWithAnimation];
+}
+
+-(void)reorderCardsWithAnimation
+{
+    [UIView transitionWithView:self.view
+                      duration:0.5
+                       options:UIViewAnimationOptionBeginFromCurrentState
+                    animations:^{
+                        [self reorderCards];
+                    }
+                    completion:nil];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
