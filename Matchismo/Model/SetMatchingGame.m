@@ -50,7 +50,6 @@
 
 -(bool)checkCardsForMatch
 {
-    return NO;
     self.haveMatchCards = NO;
     for (Card *card1 in self.cards)
     {
