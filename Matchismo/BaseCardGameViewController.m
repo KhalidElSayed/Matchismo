@@ -55,6 +55,11 @@
 {
     self.grid.size = self.gridView.frame.size;
     self.grid.minimumNumberOfCells = [self.cardViews count];
+    if (!self.grid.inputsAreValid)
+    {
+        NSLog(@"inputs not valid");
+        return;
+    }
     for (int i=0; i<self.grid.minimumNumberOfCells; i++)
     {
         int row = i / self.grid.columnCount;
@@ -69,9 +74,10 @@
 {
     self.grid.size = self.gridView.frame.size;
     self.grid.minimumNumberOfCells = self.cardsCount;
-    self.grid.minCellHeight = 56;
-    self.grid.minCellWidth = 44;
-    self.grid.cellAspectRatio = self.grid.minCellWidth/self.grid.minCellHeight;
+//    self.grid.minCellHeight = 56;
+//    self.grid.minCellWidth = 44;
+//    self.grid.cellAspectRatio = self.grid.minCellWidth/self.grid.minCellHeight;
+    self.grid.cellAspectRatio = 44.0 / 56.0;
     NSLog(@"grid set cool - %hhd", self.grid.inputsAreValid);
     
     NSMutableArray *views = [[NSMutableArray alloc] init];
@@ -92,6 +98,22 @@
     
     card.center = [self.grid centerOfCellAtRow:row inColumn:column];
     card.frame = [self.grid frameOfCellAtRow:row inColumn:column];
+    [self.gridView addSubview:card];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(flip:)];
+    [card addGestureRecognizer:tap];
+    
+    [cards addObject:card];
+}
+
+-(void)addNewCardToCards:(NSMutableArray *)cards
+{
+    UIView *card = [self newCardView];
+    
+    card.frame = [self.grid frameOfCellAtRow:0 inColumn:0];
+    float y = self.view.bounds.size.height + 2*card.frame.size.height;
+    card.center = CGPointMake(self.view.bounds.size.width/2, y);
+    
     [self.gridView addSubview:card];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(flip:)];

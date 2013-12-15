@@ -40,6 +40,8 @@
         [self.cards removeObjectAtIndex:index];
     }
     
+    self.noMoreCards = randomCard == nil;
+    
     return randomCard;
 }
 

@@ -29,9 +29,11 @@
 - (void)updateCards;
 -(void)redeal;
 -(void)reorderCards;
+-(void)reorderCardsWithAnimation;
 
 -(void)newAction:(NSAttributedString *)action;
 - (IBAction)flipCard:(id)sender;
 
 - (void)addNewCardViewToColumn:(int)column ToRow:(int)row ToCards:(NSMutableArray *)cards;
+-(void)addNewCardToCards:(NSMutableArray *)cards;
 @end

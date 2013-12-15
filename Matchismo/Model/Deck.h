@@ -11,6 +11,8 @@
 
 @interface Deck : NSObject
 
+@property (nonatomic) int noMoreCards;
+
 - (void) addCard: (Card *)card atTop: (BOOL) atTop;
 
 - (Card *) drawRandomCard;

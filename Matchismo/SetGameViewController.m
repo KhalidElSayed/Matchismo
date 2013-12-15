@@ -13,6 +13,8 @@
 #import "SetCardView.h"
 
 @interface SetGameViewController ()
+@property (weak, nonatomic) IBOutlet UIButton *dealMoreButton;
+@property (strong, nonatomic) SetCardDeck *deck;
 @end
 
 @implementation SetGameViewController
@@ -21,11 +23,43 @@
 -(MatchingGame *)game
 {
     if (!super.game) {
+        self.deck = [[SetCardDeck alloc] init];
         super.game = [[SetMatchingGame alloc] initWithCardCount:self.cardViews.count
-                                                       usingDeck:[[SetCardDeck alloc] init]];
+                                                       usingDeck:self.deck];
         super.game.gameMode = 3;
+        self.dealMoreButton.enabled = ![(SetMatchingGame *)self.game checkCardsForMatch];
     }
     return super.game;
+}
+
+- (void)add3CardToView {
+    self.grid.minimumNumberOfCells +=3;
+    
+    NSMutableArray *views = [[NSMutableArray alloc] initWithArray:self.cardViews];
+    
+    for (int i=0; i<3; i++)
+    {
+        [self addNewCardToCards:views];
+    }
+    self.cardViews = views;
+    [self updateUI];
+    [super reorderCardsWithAnimation];
+}
+
+- (IBAction)deal3MoreCard {
+    
+    bool success = [(SetMatchingGame *)self.game add3moreCardsUsingDeck:self.deck];
+    
+    if (!success)
+    {
+        NSLog(@"No more cards");
+        self.dealMoreButton.enabled = false;
+        return;
+    }
+    
+    [self add3CardToView];
+    
+     self.dealMoreButton.enabled = ![(SetMatchingGame *)self.game checkCardsForMatch];
 }
 
 -(UIView *)newCardView
@@ -63,7 +97,7 @@
         int cardsToAdd =[self cardsCount]-self.cardViews.count;
         for (int i=0; i<cardsToAdd; i++)
         {
-            [super addNewCardViewToColumn:0 ToRow:0 ToCards:self.cardViews];
+            [super addNewCardToCards:self.cardViews];
         }
         [super reorderCards];
     }
@@ -158,16 +192,6 @@
     [content addAttributes:@{NSStrokeWidthAttributeName: @-5} range: range];
 }
 
--(NSAttributedString *)contentForCard:(Card *)card
-{
-    NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:card.contents];
-    
-    NSRange range = NSMakeRange(0, [[content string] length]);
-    
-    [self addAttributeForCard:card range:range content:content];
-    
-    return content;
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -226,6 +250,11 @@
                        options:UIViewAnimationOptionBeginFromCurrentState
                     animations:^{
                         [self flipCard: tap.view];
+                        if ([self.game isKindOfClass:[SetMatchingGame class]])
+                        {
+                            self.dealMoreButton.enabled = ![(SetMatchingGame *)self.game checkCardsForMatch] && !self.deck.noMoreCards;
+                        }
+                       
                     }
                     completion:nil];
 }

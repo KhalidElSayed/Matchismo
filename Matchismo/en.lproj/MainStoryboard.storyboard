@@ -36,13 +36,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Flips: 0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugy-cU-FZo">
-                                <rect key="frame" x="20" y="402" width="56" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Score: 0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L8Q-cm-hSu">
                                 <rect key="frame" x="236" y="402" width="64" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -70,18 +63,29 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D5b-PA-XBe">
+                                <rect key="frame" x="20" y="395" width="54" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="3 more">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="deal3MoreCard" destination="ysQ-FH-gQz" eventType="touchUpInside" id="Uu8-ey-ZWd"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="D5b-PA-XBe" firstAttribute="leading" secondItem="rHJ-hG-5e8" secondAttribute="leading" constant="20" id="GjD-HB-06m"/>
                             <constraint firstItem="Ozb-wh-GoC" firstAttribute="top" secondItem="Dwo-R5-tWu" secondAttribute="bottom" constant="8" id="LHG-vG-C1V"/>
-                            <constraint firstItem="Gj4-Iz-sag" firstAttribute="top" secondItem="ugy-cU-FZo" secondAttribute="bottom" constant="20" symbolic="YES" id="OBa-LQ-yg8"/>
-                            <constraint firstItem="ugy-cU-FZo" firstAttribute="leading" secondItem="rHJ-hG-5e8" secondAttribute="leading" constant="20" id="VKb-K1-3bZ"/>
                             <constraint firstItem="Dwo-R5-tWu" firstAttribute="top" secondItem="Ox3-wy-oOV" secondAttribute="bottom" id="aQp-9b-aOC"/>
                             <constraint firstAttribute="trailing" secondItem="Dwo-R5-tWu" secondAttribute="trailing" id="aZo-w8-u0C"/>
                             <constraint firstItem="Gj4-Iz-sag" firstAttribute="top" secondItem="Ozb-wh-GoC" secondAttribute="bottom" constant="20" symbolic="YES" id="iNR-UD-OsH"/>
                             <constraint firstAttribute="trailing" secondItem="L8Q-cm-hSu" secondAttribute="trailing" constant="20" id="l8z-Bb-AaS"/>
                             <constraint firstItem="Dwo-R5-tWu" firstAttribute="leading" secondItem="rHJ-hG-5e8" secondAttribute="leading" id="lkC-0B-qax"/>
                             <constraint firstItem="Gj4-Iz-sag" firstAttribute="top" secondItem="L8Q-cm-hSu" secondAttribute="bottom" constant="20" symbolic="YES" id="mpQ-Gi-BsP"/>
+                            <constraint firstItem="Gj4-Iz-sag" firstAttribute="top" secondItem="D5b-PA-XBe" secondAttribute="bottom" constant="3" id="qFf-zD-tRY"/>
                             <constraint firstAttribute="centerX" secondItem="Ozb-wh-GoC" secondAttribute="centerX" id="qgc-Dg-D6Y"/>
                         </constraints>
                     </view>
@@ -93,7 +97,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="flipsLabel" destination="ugy-cU-FZo" id="T1n-jw-V1G"/>
+                        <outlet property="dealMoreButton" destination="D5b-PA-XBe" id="tK2-8Q-fyD"/>
                         <outlet property="gridView" destination="Dwo-R5-tWu" id="u3L-cH-ey0"/>
                         <outlet property="scoreLabel" destination="L8Q-cm-hSu" id="Czh-qx-Cf0"/>
                     </connections>

@@ -10,6 +10,10 @@
 
 @interface SetMatchingGame : MatchingGame
 
+@property (nonatomic) bool haveMatchCards;
 @property (strong, nonatomic) NSArray *lastMatchedCards; // of Card
+
+-(bool)add3moreCardsUsingDeck:(Deck *)deck;
+-(bool)checkCardsForMatch;
 
 @end

@@ -42,4 +42,54 @@
     self.lastMatchedCards = @[card];
 }
 
+-(void)flipCardAtIndex:(NSUInteger)index
+{
+    [super flipCardAtIndex:index];
+    [self checkCardsForMatch];
+}
+
+-(bool)checkCardsForMatch
+{
+    return NO;
+    self.haveMatchCards = NO;
+    for (Card *card1 in self.cards)
+    {
+        if (card1.unplayable) continue;
+        for (Card *card2 in self.cards)
+        {
+            if (card1.unplayable) continue;
+            for (Card *card3 in self.cards)
+            {
+                if (card1.unplayable) continue;
+                if (![card1 isEqual:card2] && ![card2 isEqual:card3] && ![card1 isEqual:card3])
+                {
+                    int matchScore = [card1 match:@[card2, card3]];
+                    if (matchScore)
+                    {
+                        self.haveMatchCards = YES;
+                        break;
+                    }
+
+                }
+            }
+            if (self.haveMatchCards) break;
+        }
+        if (self.haveMatchCards) break;
+    }
+    return self.haveMatchCards;
+}
+
+-(bool)add3moreCardsUsingDeck:(Deck *)deck
+{
+    int cardsCount = self.cards.count;
+    for (int i=0; i<3; i++) {
+        Card *card = [deck drawRandomCard];
+        if (!card) {
+            return false;
+        } else {
+            self.cards[i+cardsCount] = card;
+        }
+    }
+    return true;
+}
 @end
