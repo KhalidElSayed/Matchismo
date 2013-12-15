@@ -86,21 +86,22 @@
     
     if ([viewsToDelete count])
     {
-        [self reorderCards];
+        [self reorderCards:NO];
     }
 }
 
 -(void)redeal
 {
-    if (self.cardViews.count < [self cardsCount])
-    {
-        int cardsToAdd =[self cardsCount]-self.cardViews.count;
-        for (int i=0; i<cardsToAdd; i++)
-        {
-            [super addNewCardToCards:self.cardViews];
-        }
-        [super reorderCards];
-    }
+    [super redeal];
+//    if (self.cardViews.count < [self cardsCount])
+//    {
+//        int cardsToAdd =[self cardsCount]-self.cardViews.count;
+//        for (int i=0; i<cardsToAdd; i++)
+//        {
+//            [super addNewCardToCards:self.cardViews];
+//        }
+//        [super reorderCards];
+//    }
 }
 
 -(void)updateCardView:(UIView *)cardView forCard:(Card *)card

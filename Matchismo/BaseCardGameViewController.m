@@ -24,7 +24,7 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    [self addCardsToView:self.gridView];
+    [self addNewCardsWithAnimation];
 }
 
 -(NSAttributedString *)gameHistory
@@ -51,7 +51,7 @@
     return nil;
 }
 
--(void)reorderCards
+-(void)reorderCards:(bool)withDeepAnimation
 {
     self.grid.size = self.gridView.frame.size;
     self.grid.minimumNumberOfCells = [self.cardViews count];
@@ -65,8 +65,24 @@
         int row = i / self.grid.columnCount;
         int column = i % self.grid.columnCount;
         UIView *card = [self.cardViews objectAtIndex:i];
-        card.center = [self.grid centerOfCellAtRow:row inColumn:column];
-        card.frame = [self.grid frameOfCellAtRow:row inColumn:column];
+        
+        void (^block)() = ^(){
+            card.center = [self.grid centerOfCellAtRow:row inColumn:column];
+            card.frame = [self.grid frameOfCellAtRow:row inColumn:column];
+        };
+        if (withDeepAnimation)
+        {
+            [UIView animateWithDuration:0.1 delay:0.1*i
+                                options:UIViewAnimationOptionBeginFromCurrentState
+                             animations:^{
+                                 block();
+                             }
+                             completion:nil];
+        }
+        else
+        {
+            block();
+        }
     }
 }
 
@@ -74,9 +90,6 @@
 {
     self.grid.size = self.gridView.frame.size;
     self.grid.minimumNumberOfCells = self.cardsCount;
-//    self.grid.minCellHeight = 56;
-//    self.grid.minCellWidth = 44;
-//    self.grid.cellAspectRatio = self.grid.minCellWidth/self.grid.minCellHeight;
     self.grid.cellAspectRatio = 44.0 / 56.0;
     NSLog(@"grid set cool - %hhd", self.grid.inputsAreValid);
     
@@ -84,12 +97,9 @@
     
     for (int i=0; i<self.grid.minimumNumberOfCells; i++)
     {
-        int row = i / self.grid.columnCount;
-        int column = i % self.grid.columnCount;
-        [self addNewCardViewToColumn:column ToRow:row ToCards:views];
+        [self addNewCardToCards:views];
     }
     self.cardViews = views;
-    [self updateUI];
 }
 
 - (void)addNewCardViewToColumn:(int)column ToRow:(int)row ToCards:(NSMutableArray *)cards
@@ -159,7 +169,30 @@
     }
 }
 
--(void)redeal {}
+-(void)redeal
+{
+    [UIView animateWithDuration:1.0 delay:0.0
+                        options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         for (UIView *cardView in self.cardViews) {
+                             cardView.alpha = 0.0;
+                         }
+                     }
+                     completion:^(BOOL finished) {
+                         for (UIView *cardView in self.cardViews) {
+                             [cardView removeFromSuperview];
+                         }
+                         [self.cardViews removeAllObjects];
+                         [self addNewCardsWithAnimation];
+                     }];
+}
+
+-(void)addNewCardsWithAnimation
+{
+    [self addCardsToView:self.gridView];
+    [self updateUI];
+    [self reorderCards:YES];
+}
 
 -(void)updateCardView:(UIView *)cardView forCard:(Card *)card {}
 
@@ -174,7 +207,6 @@
     self.game = nil;
     self.flipCount = 0;
     [self redeal];
-    [self updateUI];
 }
 
 - (IBAction)flipCard:(id)sender
@@ -215,7 +247,7 @@
                       duration:0.5
                        options:UIViewAnimationOptionBeginFromCurrentState
                     animations:^{
-                        [self reorderCards];
+                        [self reorderCards:NO];
                     }
                     completion:nil];
 }

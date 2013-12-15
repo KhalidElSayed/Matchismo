@@ -28,7 +28,7 @@
 -(void)updateUI;
 - (void)updateCards;
 -(void)redeal;
--(void)reorderCards;
+-(void)reorderCards:(bool)withDeepAnimation;
 -(void)reorderCardsWithAnimation;
 
 -(void)newAction:(NSAttributedString *)action;
