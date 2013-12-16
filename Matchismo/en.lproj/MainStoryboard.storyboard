@@ -62,6 +62,12 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="330"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="M4x-sS-2ax" appends="YES" id="pGT-P6-sj7"/>
+                                    <outletCollection property="gestureRecognizers" destination="VQr-rh-NJy" appends="YES" id="ptu-hk-7Gf"/>
+                                    <outletCollection property="gestureRecognizers" destination="LAe-lu-C27" appends="YES" id="dGv-nI-43f"/>
+                                </connections>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D5b-PA-XBe">
                                 <rect key="frame" x="20" y="395" width="54" height="33"/>
@@ -103,6 +109,21 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LeL-we-rVE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="M4x-sS-2ax">
+                    <connections>
+                        <action selector="gatherCardsIntoPile:" destination="ysQ-FH-gQz" id="a4m-mG-I2K"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <tapGestureRecognizer id="VQr-rh-NJy">
+                    <connections>
+                        <action selector="tapOnPile:" destination="ysQ-FH-gQz" id="vyu-IK-Xmn"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="LAe-lu-C27">
+                    <connections>
+                        <action selector="dragPile:" destination="ysQ-FH-gQz" id="bfW-jX-aDv"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="108" y="4"/>
         </scene>
@@ -150,6 +171,12 @@
                                 <rect key="frame" x="0.0" y="63" width="320" height="331"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="67H-lU-ul4" appends="YES" id="6dX-7W-p7Q"/>
+                                    <outletCollection property="gestureRecognizers" destination="6Kf-9E-lye" appends="YES" id="Bf8-vd-M4a"/>
+                                    <outletCollection property="gestureRecognizers" destination="jCs-u1-jbn" appends="YES" id="ysu-lj-Zhg"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -180,6 +207,21 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="67H-lU-ul4">
+                    <connections>
+                        <action selector="gatherCardsIntoPile:" destination="2" id="nc9-Vo-eUW"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <tapGestureRecognizer id="6Kf-9E-lye">
+                    <connections>
+                        <action selector="tapOnPile:" destination="2" id="WPi-mJ-n6A"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="jCs-u1-jbn">
+                    <connections>
+                        <action selector="dragPile:" destination="2" id="JmM-y9-Rr4"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="123" y="-583"/>
         </scene>
@@ -263,6 +305,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="qHc-4l-gXN"/>
+        <segue reference="1Yd-fP-213"/>
     </inferredMetricsTieBreakers>
 </document>

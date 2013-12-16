@@ -11,10 +11,20 @@
 @interface BaseCardGameViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *flipsLabel;
+@property (strong, nonatomic) UIDynamicAnimator *animator;
 
 @end
 
 @implementation BaseCardGameViewController
+
+-(UIDynamicAnimator *)animator
+{
+    if (!_animator)
+    {
+        _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.gridView];
+    }
+    return _animator;
+}
 
 -(int)cardsCount
 {
@@ -211,6 +221,13 @@
 
 - (IBAction)flipCard:(id)sender
 {
+    if (self.animator.behaviors.count)
+    {
+        //cards in pile
+        [self tapOnPile:sender];
+        return;
+    }
+    
     [self.game flipCardAtIndex:[self.cardViews indexOfObject:sender]];
     self.flipCount++;
     [self updateUI];
@@ -250,6 +267,50 @@
                         [self reorderCards:NO];
                     }
                     completion:nil];
+}
+
+- (IBAction)gatherCardsIntoPile:(UIPinchGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateEnded)
+    {
+        if (self.animator.behaviors.count) return;
+        
+        NSMutableArray *newBehaviors = [NSMutableArray array];
+        CGPoint anchor = CGPointMake(self.gridView.bounds.size.width/2, self.gridView.bounds.origin.y+self.gridView.bounds.size.height/2);
+   
+        for (UIView *item in self.cardViews) {
+            UIAttachmentBehavior *attachment = [[UIAttachmentBehavior alloc] initWithItem:item attachedToAnchor:anchor];
+            attachment.length = arc4random() % (int)item.bounds.size.width/2;
+            [self.animator addBehavior:attachment];
+            [newBehaviors addObject:attachment];
+        }
+
+    }
+}
+
+- (IBAction)dragPile:(UIPanGestureRecognizer *)sender {
+    if ((sender.state == UIGestureRecognizerStateChanged) ||
+        (sender.state == UIGestureRecognizerStateEnded))
+    {
+        CGPoint translation = [sender translationInView:self.gridView];
+        
+        for (UIDynamicBehavior *behavior in self.animator.behaviors) {
+            if ([behavior isKindOfClass:[UIAttachmentBehavior class]])
+            {
+                UIAttachmentBehavior *attachment = (UIAttachmentBehavior *)behavior;
+                attachment.anchorPoint = CGPointMake(attachment.anchorPoint.x + translation.x, attachment.anchorPoint.y + translation.y);
+            }
+        }
+        
+        [sender setTranslation:CGPointZero inView:self.gridView];
+    }
+}
+
+
+- (IBAction)tapOnPile:(id)sender
+{
+    if (!self.animator.behaviors.count) return;
+    [self.animator removeAllBehaviors];
+    [self reorderCardsWithAnimation];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
